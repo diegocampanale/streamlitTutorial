@@ -4,7 +4,7 @@ import pandas as pd
 from utils.utils import *
 
 st.set_page_config(
-    page_title="Quaderno 4",
+    page_title="Homepage",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
@@ -16,17 +16,15 @@ st.set_page_config(
 
 
 st.title("Quaderno 4")
-st.markdown("---")
-st.markdown("### Introduzione")
-st.markdown("Questo quaderno fa parte del corso di **Basi di Dati** e si concentra sull'apprendimento della creazione di dashboard interattive utilizzando Streamlit.")
+st.markdown("Sviluppo di un’applicazione web con Streamlit e MySQL")
 st.markdown("### Obiettivi")
-st.markdown("- **Apprendere le basi di Streamlit**\n- **Creare una dashboard interattiva**\n- **Integrare dati e visualizzazioni**")
+st.markdown("Creare un’applicazione web in Python (Streamlit) in grado di interagire con un database MySQL in modo da eseguire interrogazioni in base alle interazioni dell’utente.")
 st.markdown("### Studente")
 st.markdown("Realizzato da **Diego Campanale** (Matricola: s325040)")
 
 
 st.markdown("---")
-st.markdown("### Lezioni Programmate")
+st.markdown("## Lezioni Programmate")
 
 # Verifica la connessione al database
 if st.session_state.get("connection"):
@@ -34,7 +32,7 @@ if st.session_state.get("connection"):
     
     # Query per lezioni per slot di tempo
     query_time_slots = """
-    SELECT OraInizio AS Ora, COUNT(*) AS Numero_Lezioni
+    SELECT OraInizio AS Ora, COUNT(*) AS NumeroLezioni
     FROM Programma
     GROUP BY OraInizio
     ORDER BY OraInizio
@@ -42,7 +40,7 @@ if st.session_state.get("connection"):
     
     # Query per lezioni per giorno della settimana
     query_week_days = """
-    SELECT Giorno, COUNT(*) AS Numero_Lezioni
+    SELECT Giorno, COUNT(*) AS NumeroLezioni
     FROM Programma
     GROUP BY Giorno
     """
@@ -56,9 +54,22 @@ if st.session_state.get("connection"):
         st.markdown("#### Lezioni per Slot di Tempo")
         st.area_chart(data_time_slots.set_index("Ora"))
         
-        # Bar Chart
+        
+        mapping_giorni = {
+            'Lunedì': '1 - Lunedì',
+            'Martedì': '2 - Martedì',
+            'Mercoledì': '3 - Mercoledì',
+            'Giovedì': '4 - Giovedì',
+            'Venerdì': '5 - Venerdì',
+            'Sabato': '6 - Sabato',
+            'Domenica': '7 - Domenica'
+        }
+        
+        # Applica la mappatura
+        data_week_days['GiornoOrdinato'] = data_week_days['Giorno'].map(mapping_giorni)
+        
         st.markdown("#### Lezioni per Giorno della Settimana")
-        st.bar_chart(data_week_days.set_index("Giorno"))
+        st.bar_chart(data_week_days.set_index("GiornoOrdinato")['NumeroLezioni'])
         
     except Exception as e:
         st.error(f"Errore durante il recupero dei dati: {e}")
