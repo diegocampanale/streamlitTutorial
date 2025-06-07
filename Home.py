@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 
-st.title("Quaderno 4")
+st.title("Quaderno 4 - Palestra Streamlit")
 st.markdown("Sviluppo di un’applicazione web con Streamlit e MySQL")
 st.markdown("### Obiettivi")
 st.markdown("Creare un’applicazione web in Python (Streamlit) in grado di interagire con un database MySQL in modo da eseguire interrogazioni in base alle interazioni dell’utente.")
