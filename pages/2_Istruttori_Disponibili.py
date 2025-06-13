@@ -27,7 +27,7 @@ def show_istruttori_section():
             min_date = datetime.date(1950, 1, 1)
             max_date = datetime.date.today()
             
-        with st.expander("Cerca Istruttore", expanded=False):
+        with st.expander("## **Cerca Istruttore**", expanded=False):
             col1, col2= st.columns(2)
             
             filtro_cognome = col1.text_input("Cognome Istruttore", placeholder="Inserisci il cognome dell'istruttore")
@@ -39,7 +39,6 @@ def show_istruttori_section():
                 max_value=max_date
             )
             
-            # Gestione dei date input
             try:
                 if len(date_range) == 2:
                     start_date, end_date = date_range
@@ -52,7 +51,6 @@ def show_istruttori_section():
                     start_date = min_date
                     end_date = max_date
             except Exception as e:
-                # Fallback nel caso di errori
                 start_date = min_date
                 end_date = max_date
                 st.warning("Errore nella selezione delle date. Utilizzato range predefinito.")
@@ -100,7 +98,7 @@ def show_istruttori_section():
                             background-color: #f9f9f9;
                         ">
                             <h3 style="text-align: center;">{fixed_emoji} {row['Nome']} {row['Cognome']}</h3>
-                            <hr>
+                            <hr style="border: 1px solid #ccc; margin: 10px 0;">
                             <p><b>Codice Fiscale:</b> {row['CodFisc']}</p>
                             <p><b>Data di Nascita:</b> {row['DataNascita'].strftime('%d/%m/%Y')}</p>
                             <p><b>Email:</b> {row['Email']}</p>
@@ -134,7 +132,6 @@ def show_istruttori_section():
     
 
 if __name__ == "__main__":
-    # Configurazione pagina
     st.set_page_config(
         page_title="Istruttori Disponibili",
         layout="wide",

@@ -50,26 +50,28 @@ if st.session_state.get("connection"):
         data_time_slots = pd.read_sql(query_time_slots, conn)
         data_week_days = pd.read_sql(query_week_days, conn)
         
-        # Area Chart
-        st.markdown("#### Lezioni per Slot di Tempo")
-        st.area_chart(data_time_slots.set_index("Ora"))
+        # Tab per i grafici
+        tab1, tab2 = st.tabs(["**Lezioni per Slot di Tempo**", "**Lezioni per Giorno della Settimana**"])
         
+        #Grafico per slot di tempo
+        with tab1:
+            st.area_chart(data_time_slots.set_index("Ora"))
         
-        mapping_giorni = {
-            'Lunedì': '1 - Lunedì',
-            'Martedì': '2 - Martedì',
-            'Mercoledì': '3 - Mercoledì',
-            'Giovedì': '4 - Giovedì',
-            'Venerdì': '5 - Venerdì',
-            'Sabato': '6 - Sabato',
-            'Domenica': '7 - Domenica'
-        }
-        
-        # Applica la mappatura
-        data_week_days['GiornoOrdinato'] = data_week_days['Giorno'].map(mapping_giorni)
-        
-        st.markdown("#### Lezioni per Giorno della Settimana")
-        st.bar_chart(data_week_days.set_index("GiornoOrdinato")['NumeroLezioni'])
+        # Grafico per giorno della settimana
+        with tab2:
+            mapping_giorni = {
+                'Lunedì': '1 - Lunedì',
+                'Martedì': '2 - Martedì',
+                'Mercoledì': '3 - Mercoledì',
+                'Giovedì': '4 - Giovedì',
+                'Venerdì': '5 - Venerdì',
+                'Sabato': '6 - Sabato',
+                'Domenica': '7 - Domenica'
+            }
+            
+            data_week_days['GiornoOrdinato'] = data_week_days['Giorno'].map(mapping_giorni)
+            
+            st.bar_chart(data_week_days.set_index("GiornoOrdinato")['NumeroLezioni'])
         
     except Exception as e:
         st.error(f"Errore durante il recupero dei dati: {e}")

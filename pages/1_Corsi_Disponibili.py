@@ -1,6 +1,6 @@
 import streamlit as st
-import pandas as pd
 from utils.utils import *
+import pandas as pd
 
 # Mostra i corsi disponibili
 def show_corsi_section():
@@ -10,7 +10,7 @@ def show_corsi_section():
         corsi = execute_query(st.session_state["connection"], query_all_corsi)
         df_corsi = pd.DataFrame(corsi)
         
-        # Query tipi distinti deii corsi
+        # Query tipi distinti dei corsi
         query_tipi = "SELECT DISTINCT Tipo FROM Corsi"
         tipi = execute_query(st.session_state["connection"], query_tipi)
         df_tipi = pd.DataFrame(tipi)
